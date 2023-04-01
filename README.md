@@ -2,7 +2,7 @@
 
 Use a standard projector as a follow spot for low budget theatrical productions
 
-Navigate to [projector.hackoa.com](projector.hackoa.com) and place your web browser in full-screen mode (F11)
+Navigate to [projector.hackoa.com](https://projector.hackoa.com) and place your web browser in full-screen mode (F11)
 
 Mouse commands:
 * `move mouse` moves the light around the screen
