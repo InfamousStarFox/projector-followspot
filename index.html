@@ -36,6 +36,11 @@
 			cursor.y = e.offsetY;
 			render();
 		}
+		function touchMovement(e) {
+			cursor.x = e.touches[0].clientX;
+			cursor.y = e.touches[0].clientY;
+			render();
+		}
 		function mouseWheel(e) {
 			if (e.ctrlKey) {
 				const opacity = cursor.opacity + (e.deltaY / 250);
@@ -90,6 +95,8 @@
 			}
 		}
 		document.addEventListener('mousemove', mouseMovement);
+		document.addEventListener('touchmove', touchMovement);
+		document.addEventListener('touchstart', touchMovement);
 		document.addEventListener('wheel', mouseWheel);
 		document.addEventListener('keypress', keypress);
 	</script>
