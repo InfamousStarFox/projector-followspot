@@ -13,6 +13,7 @@
 			width: 100%;
 			height: calc(100vh - 3px);
 			cursor: none;
+			touch-action: none;
 		}
 	</style>
 </head>
@@ -29,16 +30,12 @@
 			color: 'white',
 			opacity: 1,
 			lockPosition: false,
-			visible: true
+			visible: true,
+			pinchDistance: undefined
 		};
 		function mouseMovement(e) {
 			cursor.x = e.offsetX;
 			cursor.y = e.offsetY;
-			render();
-		}
-		function touchMovement(e) {
-			cursor.x = e.touches[0].clientX;
-			cursor.y = e.touches[0].clientY;
 			render();
 		}
 		function mouseWheel(e) {
@@ -48,6 +45,23 @@
 			} else {
 				const radius = cursor.radius + e.deltaY;
 				cursor.radius = bounds(0, screen.width, radius);
+			}
+			render();
+		}
+		function touchMovement(e) {
+			if (e.touches.length === 2) {
+				const distance = Math.hypot(
+					e.touches[0].clientX - e.touches[1].clientX,
+					e.touches[0].clientY - e.touches[1].clientY
+				);
+				if (cursor.pinchDistance !== undefined) {
+					const radius = cursor.radius + distance - cursor.pinchDistance;
+					cursor.radius = bounds(0, screen.width, radius);
+				}
+				cursor.pinchDistance = distance;
+			} else {
+				cursor.x = e.touches[0].clientX;
+				cursor.y = e.touches[0].clientY;
 			}
 			render();
 		}
@@ -95,9 +109,10 @@
 			}
 		}
 		document.addEventListener('mousemove', mouseMovement);
-		document.addEventListener('touchmove', touchMovement);
-		document.addEventListener('touchstart', touchMovement);
 		document.addEventListener('wheel', mouseWheel);
+		document.addEventListener('touchstart',touchMovement);
+		document.addEventListener('touchmove', touchMovement);
+		document.addEventListener('touchend', () => cursor.pinchDistance = undefined);
 		document.addEventListener('keypress', keypress);
 	</script>
 </body>
