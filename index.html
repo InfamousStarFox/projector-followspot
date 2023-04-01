@@ -65,8 +65,13 @@
 			}
 			render();
 		}
-		function keypress(e) {
-			const keyFound = {
+		function keydown(e) {
+			const keys = e.ctrlKey ? {
+				'=': () => cursor.radius = bounds(0, screen.width, cursor.radius + 3),
+				'+': () => cursor.radius = bounds(0, screen.width, cursor.radius + 3),
+				'-': () => cursor.radius = bounds(0, screen.width, cursor.radius - 3),
+				'_': () => cursor.radius = bounds(0, screen.width, cursor.radius - 3),
+			} : {
 				' ': () => cursor.visible = !cursor.visible,
 				'r': () => cursor.color = 'red',
 				'b': () => cursor.color = 'blue',
@@ -76,18 +81,20 @@
 				'c': () => cursor.color = 'cyan',
 				'v': () => cursor.color = 'violet',
 				'o': () => cursor.color = 'orange',
-				'+': () => cursor.radius = bounds(0, screen.width, cursor.radius + 2),
-				'_': () => cursor.radius = bounds(0, screen.width, cursor.radius - 2),
 				'=': () => cursor.opacity = bounds(0, 1, cursor.opacity + 0.1),
+				'+': () => cursor.opacity = bounds(0, 1, cursor.opacity + 0.1),
 				'-': () => cursor.opacity = bounds(0, 1, cursor.opacity - 0.1),
+				'_': () => cursor.opacity = bounds(0, 1, cursor.opacity - 0.1),
 				'l': () => cursor.lockPosition = !cursor.lockPosition,
 				'0': () => {
 					cursor.radius = screen.width / 8;
 					cursor.opacity = 1;
 				}
-			}[e.key] ?? undefined;
+			};
 
+			const keyFound = keys[e.key.toLowerCase()] ?? undefined;
 			if (keyFound) {
+				e.preventDefault();
 				keyFound();
 				render()
 			}
@@ -113,7 +120,7 @@
 		document.addEventListener('touchstart',touchMovement);
 		document.addEventListener('touchmove', touchMovement);
 		document.addEventListener('touchend', () => cursor.pinchDistance = undefined);
-		document.addEventListener('keypress', keypress);
+		document.addEventListener('keydown', keydown);
 	</script>
 </body>
 </html>

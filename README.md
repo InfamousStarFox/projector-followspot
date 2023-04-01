@@ -12,18 +12,18 @@ Mouse commands:
 * `ctrl scroll down` decreases the brightness
 
 Keyboard commands:
-* `l` toggles locking the light position
-* `spacebar` toggles blackout mode
-* `r` sets the color to red
-* `b` sets the color to blue
-* `g` sets the color to green
-* `w` sets the color to white
-* `y` sets the color to yellow
-* `c` sets the color to cyan
-* `v` sets the color to violet
-* `o` sets the color to orange
-* `=` increases the brightness
-* `-` decreases the brightness
-* `+` increases the radius
-* `_` decreases the radius
+* `L` toggles locking the light position
+* `Spacebar` toggles blackout mode
+* `+` / `=` increases the brightness
+* `-` / `_` decreases the brightness
+* `ctrl +` / `ctrl =` increases the radius
+* `ctrl -` / `ctrl _` decreases the radius
 * `0` resets the brightness and radius
+* `R` sets the color to red
+* `B` sets the color to blue
+* `G` sets the color to green
+* `W` sets the color to white
+* `Y` sets the color to yellow
+* `C` sets the color to cyan
+* `V` sets the color to violet
+* `O` sets the color to orange
