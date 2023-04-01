@@ -23,6 +23,8 @@ Keyboard commands:
 * `B` sets the color to blue
 * `G` sets the color to green
 * `W` sets the color to white
+* `Q` sets the color to soft white
+* `E` sets the color to warm white
 * `Y` sets the color to yellow
 * `C` sets the color to cyan
 * `V` sets the color to violet
