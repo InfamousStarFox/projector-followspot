@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Projector Follow-spot</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		html, body {
+			margin: 0px;
+			background-color: black;
+		}
+		svg {
+			width: 100%;
+			height: calc(100vh - 3px);
+			cursor: none;
+		}
+	</style>
+</head>
+<body>
+	<svg>
+		<circle id="circle" />
+	</svg>
+	<script type="text/javascript">
+		const circle = document.getElementById('circle');
+		const cursor = {
+			x: 0,
+			y: 0,
+			radius: screen.width / 8,
+			color: 'white',
+			opacity: 1,
+			lockPosition: false,
+			visible: true
+		};
+		function mouseMovement(e) {
+			cursor.x = e.offsetX;
+			cursor.y = e.offsetY;
+			render();
+		}
+		function mouseWheel(e) {
+			if (e.ctrlKey) {
+				const opacity = cursor.opacity + (e.deltaY / 250);
+				cursor.opacity = bounds(0, 1, opacity);
+			} else {
+				const radius = cursor.radius + e.deltaY;
+				cursor.radius = bounds(0, screen.width, radius);
+			}
+			render();
+		}
+		function keypress(e) {
+			const keyFound = {
+				' ': () => cursor.visible = !cursor.visible,
+				'r': () => cursor.color = 'red',
+				'b': () => cursor.color = 'blue',
+				'g': () => cursor.color = 'green',
+				'w': () => cursor.color = 'white',
+				'y': () => cursor.color = 'yellow',
+				'c': () => cursor.color = 'cyan',
+				'v': () => cursor.color = 'violet',
+				'o': () => cursor.color = 'orange',
+				'+': () => cursor.radius = bounds(0, screen.width, cursor.radius + 2),
+				'_': () => cursor.radius = bounds(0, screen.width, cursor.radius - 2),
+				'=': () => cursor.opacity = bounds(0, 1, cursor.opacity + 0.1),
+				'-': () => cursor.opacity = bounds(0, 1, cursor.opacity - 0.1),
+				'l': () => cursor.lockPosition = !cursor.lockPosition,
+				'0': () => {
+					cursor.radius = screen.width / 8;
+					cursor.opacity = 1;
+				}
+			}[e.key] ?? undefined;
+
+			if (keyFound) {
+				keyFound();
+				render()
+			}
+		}
+		function bounds(min, max, x) {
+			return Math.max(min, Math.min(max, x));
+		}
+		function render() {
+			circle.setAttribute("fill", cursor.color);
+			circle.setAttribute("opacity", cursor.opacity);
+			if (cursor.visible) {
+				circle.setAttribute("r", cursor.radius);
+			} else {
+				circle.setAttribute("r", 0);
+			}
+			if (!cursor.lockPosition) {
+				circle.setAttribute("cx", cursor.x);
+				circle.setAttribute("cy", cursor.y);
+			}
+		}
+		document.addEventListener('mousemove', mouseMovement);
+		document.addEventListener('wheel', mouseWheel);
+		document.addEventListener('keypress', keypress);
+	</script>
+</body>
+</html>
